@@ -1,21 +1,17 @@
 ---
-- name: install tomcat7 package
+- name: install tomcat package
   become: yes
-  package: name=tomcat7 state=present
-  when: 
-      (ansible_distribution == "Ubuntu") or
-      (ansible_distribution == "Debian")
+  package: name={{ tomcat }} state=present
 
-- name: install tomcat packages
+- name: install additional centos tomcat packages
   become: yes
   package: name={{ item }} state=present
   with_items:
-    - tomcat
     - tomcat-webapps
     - tomcat-admin-webapps
   when: ansible_distribution == "CentOS"
 
 - name: set tomcat to restart on reboot
   become: yes
-  service: name=tomcat enabled=yes
+  service: name={{ tomcat }} enabled=yes
   when: ansible_distribution == "CentOS"

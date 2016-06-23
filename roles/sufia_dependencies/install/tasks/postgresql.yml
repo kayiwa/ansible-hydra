@@ -8,9 +8,14 @@
   become: yes
   with_items: "{{ postgresql_packages }}"
   notify:
+  # see handlers/main.yml - many handlers are only needed on CentOS
+  - symlink runuser
+  - initialize postgres db
+  - start postgres
   - set postgres password
   - determine postgres directory
-  - configure md5 security
+  - configure md5 security Debian
+  - configure md5 security CentOS
   - restart postgres server
   - create pg hydra database
   - add pg hydra user

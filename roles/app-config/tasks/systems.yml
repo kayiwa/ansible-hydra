@@ -1,5 +1,6 @@
 ---
 - name: disable SELinux
+  become: yes
   selinux: conf=/etc/selinux/config state=disabled
   when: ansible_distribution == "CentOS"
 

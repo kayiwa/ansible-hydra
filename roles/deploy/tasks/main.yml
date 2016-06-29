@@ -29,7 +29,8 @@
 
 - name: chown extensions dir
   # otherwise bundle install will fail for any gems with native extensions
-  file: owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} state=directory path=/usr/local/lib/ruby/gems/{{ ruby_ver | regex_replace (".\d+$", ".0") }}/extensions 
+  become: yes
+  file: owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} state=directory recurse=yes path=/usr/local/lib/ruby/gems/{{ ruby_ver | regex_replace (".\d+$", ".0") }}/extensions 
 
 - name: setup repo - i.e. bundle install
   shell: bundle install chdir=/home/{{ ansible_ssh_user }}/{{ project_name }}
